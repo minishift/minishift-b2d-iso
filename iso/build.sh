@@ -16,7 +16,7 @@
 
 set -e
 
-ISO=minishift.iso
+ISO=minishift-b2d.iso
 tmpdir=$(mktemp -d)
 echo "Building in $tmpdir."
 cp -r . $tmpdir/
@@ -48,9 +48,7 @@ docker build -t iso .
 docker run iso > $ISO
 
 popd
-mv $tmpdir/$ISO .
+mv $tmpdir/$ISO ../build
 
 # Clean up.
 rm -rf $tmpdir
-
-echo "Iso available at ./$ISO"
