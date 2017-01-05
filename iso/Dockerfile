@@ -17,8 +17,8 @@
 FROM boot2docker/boot2docker:1.12.3
 
 # Set the version of Docker and the expected sha.
-RUN echo "1.11.2" > $ROOTFS/etc/version
-ENV DOCKER_SHA 1bfd065784e0f422c000d86da4feda87cd63ced8
+RUN echo "1.12.3" > $ROOTFS/etc/version
+ENV DOCKER_SHA a3bb88649bcc47775c29dab7d95709f4dda04d0e
 
 # Add other dependencies here to $ROOTFS/
 ADD nsenter $ROOTFS/usr/bin/
@@ -34,8 +34,8 @@ RUN cat $ROOTFS/tmp/bootlocal.sh >> $ROOTFS/etc/rc.d/automount
 # past 1.10.x. They changed the packaging format slightly.
 RUN rm -f /$ROOTFS/usr/local/bin/docker*
 RUN curl -fSL -o /tmp/dockerbin.tgz https://get.docker.com/builds/Linux/x86_64/docker-$(cat $ROOTFS/etc/version).tgz && \
-	# Check the sha1 matches.
-	if [ $DOCKER_SHA != $(sha1sum /tmp/dockerbin.tgz | cut -f1 -d ' ') ]; then echo "SHA mismatch!"; exit 1; fi && \
+    # Check the sha1 matches.
+    if [ $DOCKER_SHA != $(sha1sum /tmp/dockerbin.tgz | cut -f1 -d ' ') ]; then echo "SHA mismatch!"; exit 1; fi && \
     tar -zxvf /tmp/dockerbin.tgz -C "$ROOTFS/usr/local/bin" --strip-components=1 && \
     rm /tmp/dockerbin.tgz
 
