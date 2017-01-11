@@ -24,11 +24,19 @@ yum -y install \
   make \
   git \
   epel-release \
-  livecd-tools \
   curl
 
-# Install Docker (https://docs.docker.com/engine/installation/linux/centos/#/install-with-the-script)
-curl -fsSL https://get.docker.com/ | sh
+# Install Docker (https://docs.docker.com/engine/installation/linux/centos/#install-with-yum)
+sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+
+yum -y install docker-engine
 systemctl enable docker.service
 systemctl start docker
 
@@ -40,8 +48,12 @@ systemctl start libvirtd
 curl https://repos-avocadoproject.rhcloud.com/static/avocado-el.repo -o /etc/yum.repos.d/avocado.repo
 yum install -y avocado
 
+# Install KVM driver
+curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.7.0/docker-machine-driver-kvm > /usr/local/bin/docker-machine-driver-kvm && \
+chmod +x /usr/local/bin/docker-machine-driver-kvm
+
 # Prepare ISO for testing
 make iso
 
-# Let's test
-make test
+# Let's test with showing log enabled
+SHOW_LOG=--show-job-log make test
