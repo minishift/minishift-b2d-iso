@@ -20,6 +20,13 @@ FROM boot2docker/boot2docker:1.12.3
 RUN echo "1.12.3" > $ROOTFS/etc/version
 ENV DOCKER_SHA a3bb88649bcc47775c29dab7d95709f4dda04d0e
 
+# Removing the code that creates the /etc/os-release file.
+# Refer: https://github.com/boot2docker/boot2docker/blob/master/rootfs/make_iso.sh#L20-L34
+RUN sed -i '/^b2dVersion/,/^EOOS/d' /make_iso.sh
+
+# Add the /etc/os-release file
+ADD os-release $ROOTFS/etc
+
 # Add other dependencies here to $ROOTFS/
 ADD nsenter $ROOTFS/usr/bin/
 ADD socat $ROOTFS/usr/bin

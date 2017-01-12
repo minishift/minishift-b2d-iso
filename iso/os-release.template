@@ -1,0 +1,9 @@
+NAME=${isoname}
+VERSION=${version}
+BUILD_ID=${build_id}
+ID=boot2docker
+ID_LIKE=tcl
+PRETTY_NAME="Minishift Boot2Docker ISO Version: ${version}"
+ANSI_COLOR="1;34"
+HOME_URL="https://github.com/minishift/minishift-b2d-iso"
+BUG_REPORT_URL="https://github.com/minishift/minishift-b2d-iso/issues"
