@@ -27,13 +27,18 @@ yum -y install \
   livecd-tools \
   curl
 
+# Install Docker (https://docs.docker.com/engine/installation/linux/centos/#/install-with-the-script)
+curl -fsSL https://get.docker.com/ | sh
+systemctl enable docker.service
+systemctl start docker
+
 # Install Libvirt
-sudo yum -y install kvm qemu-kvm libvirt
-sudo systemctl start libvirtd
+yum -y install kvm qemu-kvm libvirt
+systemctl start libvirtd
 
 # Install Avocado
-sudo curl https://repos-avocadoproject.rhcloud.com/static/avocado-el.repo -o /etc/yum.repos.d/avocado.repo
-sudo yum install -y avocado
+curl https://repos-avocadoproject.rhcloud.com/static/avocado-el.repo -o /etc/yum.repos.d/avocado.repo
+yum install -y avocado
 
 # Prepare ISO for testing
 make iso
