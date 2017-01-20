@@ -1,6 +1,8 @@
 #Minishift Boot2Docker ISO
 This repository contains all required instructions and code to build an ISO based on [Boot2Docker](https://github.com/boot2docker/boot2docker) to use with [minishift](https://github.com/minishift/minishift).
 
+----
+
 <!-- MarkdownTOC -->
 
  - [Building the minishift-b2d ISO](#building-the-boot2docker-iso)
@@ -10,7 +12,11 @@ This repository contains all required instructions and code to build an ISO base
  -  [Tests](#tests)
  - [History](#history)
 
-<!-- /Markdown TOC -->
+<!-- /MarkdownTOC -->
+
+[![Build Status](https://ci.centos.org/buildStatus/icon?job=minishift-b2d-iso)](https://ci.centos.org/job/minishift-b2d-iso/)
+
+----
 
 <a name="building-the-boot2docker-iso"></a>
 ## Building the minishift-b2d ISO
