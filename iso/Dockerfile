@@ -32,6 +32,17 @@ ADD nsenter $ROOTFS/usr/bin/
 ADD socat $ROOTFS/usr/bin
 ADD ethtool $ROOTFS/usr/bin
 ADD conntrack $ROOTFS/usr/bin
+
+# Add cifs-utils to mount fileshares
+ENV CIFS_DEPS cifs-utils \
+              samba-libs
+
+RUN for dep in $CIFS_DEPS; do \
+        curl -fSL -o "/tmp/$dep.tcz" "$TCL_REPO_BASE/tcz/$dep.tcz"; \
+        unsquashfs -f -d "$ROOTFS" "/tmp/$dep.tcz"; \
+        rm -f "/tmp/$dep.tcz"; \
+    done
+
 ADD bootlocal.sh $ROOTFS/tmp/bootlocal.sh
 RUN cat $ROOTFS/tmp/bootlocal.sh >> $ROOTFS/etc/rc.d/automount
 
