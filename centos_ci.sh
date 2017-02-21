@@ -24,7 +24,9 @@ yum -y install \
   make \
   git \
   epel-release \
-  curl
+  curl \
+  python-setuptools
+
 
 # Install Docker (https://docs.docker.com/engine/installation/linux/centos/#install-with-yum)
 sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
