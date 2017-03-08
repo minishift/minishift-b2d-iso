@@ -1,2 +1,10 @@
+# Build/release folders
 build
+release
+
+# Python compiled byte code
 tests/*.pyc
+
+# Generated file
+iso/os-release
+
