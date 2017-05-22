@@ -1,4 +1,4 @@
-#Minishift Boot2Docker ISO
+# Minishift Boot2Docker ISO
 This repository contains all required instructions and code to build an ISO based on [Boot2Docker](https://github.com/boot2docker/boot2docker) to use with [minishift](https://github.com/minishift/minishift).
 
 ----
@@ -81,6 +81,6 @@ For more information about CentOS CI, check out its [Wiki](https://wiki.centos.o
 know more about CentOS CI.
 
 <a name="history"></a>
-##History
+## History
 
 - This repository is created by exracting the `iso` directory of [Minishift](https://github.com/minishift/minishift) project.
