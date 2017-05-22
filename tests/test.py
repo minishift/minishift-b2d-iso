@@ -16,6 +16,13 @@ class MinishiftISOTest(Test):
         ''' Test Setup '''
         self.log.info("################################################################")
         self.log.info("Avocado version : %s" % VERSION)
+        cmd = self.bin_dir + "minishift version"
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        output, error_message = process.communicate()
+        if error_message:
+            self.log.debug("Error in getting Minishift version: %s" % error_message)
+
+        self.log.info("Minishift version : %s" % output)
         self.log.info("################################################################")
 
         self.repo_dir = os.path.dirname(os.path.realpath(__file__)) + "/.."
@@ -90,7 +97,7 @@ class MinishiftISOTest(Test):
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         output = process.communicate()[0]
         self.assertEqual(0, process.returncode)
-        self.assertEqual('Does Not Exist', output.rstrip())
+        self.assertEqual('Currently no Minishift VM defined.', output.rstrip())
 
     # Helper Functions
     def execute_test(self, options):
