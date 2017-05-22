@@ -25,25 +25,15 @@ yum -y install \
   git \
   epel-release \
   curl \
-  python-setuptools
+  python-setuptools \
+  docker \
+  kvm \
+  qemu-kvm \
+  libvirt
 
-
-# Install Docker (https://docs.docker.com/engine/installation/linux/centos/#install-with-yum)
-sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-EOF
-
-yum -y install docker-engine
-systemctl enable docker.service
+# Start docker
 systemctl start docker
-
-# Install Libvirt
-yum -y install kvm qemu-kvm libvirt
+# Start Libvirt
 systemctl start libvirtd
 
 # Install Avocado
