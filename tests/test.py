@@ -66,6 +66,13 @@ class MinishiftISOTest(Test):
         output = self.execute_test({ 'cmd': cmd })
         self.assertRegexpMatches(output.rstrip(), r'.*SSHFS version 2\.5.*')
 
+    # mount.nfs -V does not return a version
+    # current test fails because `minishift ssh` https://github.com/minishift/minishift/issues/660
+    #def test_nfs_installed(self):
+    #    cmd = self.bin_dir + "minishift ssh 'sudo /sbin/mount.nfs'"
+    #    output = self.execute_test({ 'cmd': cmd })
+    #    self.assertRegexpMatches(output.rstrip(), r'-o nfsoptions')
+
     def test_stopping_vm(self):
         ''' Test stopping machine '''
         cmd = self.bin_dir + "minishift stop"

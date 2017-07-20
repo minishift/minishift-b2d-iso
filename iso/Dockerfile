@@ -36,7 +36,8 @@ ADD conntrack $ROOTFS/usr/bin
 # Add cifs-utils and sshfs-fuse to mount fileshares
 ENV HOST_FOLDER_DEPS cifs-utils \
               samba-libs \
-              sshfs-fuse
+              sshfs-fuse \
+              nfs-utils
 
 RUN for dep in $HOST_FOLDER_DEPS; do \
         curl -fSL -o "/tmp/$dep.tcz" "$TCL_REPO_BASE/tcz/$dep.tcz"; \
