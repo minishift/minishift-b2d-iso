@@ -1,7 +1,7 @@
 BUILD_DIR=$(shell pwd)/build
 BIN_DIR=$(BUILD_DIR)/bin
 CODE_DIR=$(shell pwd)/iso
-VERSION=1.0.2
+VERSION=1.1.0
 GITTAG=$(shell git rev-parse --short HEAD)
 DATE=$(shell date +"%d%m%Y%H%M%S")
 ISO_NAME=minishift-b2d
