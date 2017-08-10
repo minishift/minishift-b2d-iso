@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Copyright (C) 2016 Red Hat, Inc.
 #
@@ -17,37 +17,46 @@
 set -e
 
 ISO=minishift-b2d.iso
+curdir=$(pwd)
 tmpdir=$(mktemp -d)
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && DOCKER_RUN_OPTIONS="--rm"
+
 echo "Building in $tmpdir."
 cp -r . $tmpdir/
 
-pushd $tmpdir
+cd $tmpdir
 
 # Get nsenter.
-docker run --rm jpetazzo/nsenter cat /nsenter > $tmpdir/nsenter && chmod +x $tmpdir/nsenter
+docker run $DOCKER_RUN_OPTIONS jpetazzo/nsenter cat /nsenter > $tmpdir/nsenter && chmod +x $tmpdir/nsenter
+# do not remove nsenter, as this image is not big, and quite generally used
 
 # Get socat
 docker build -t socat -f Dockerfile.socat .
-docker run socat cat socat > $tmpdir/socat
+docker run $DOCKER_RUN_OPTIONS socat cat socat > $tmpdir/socat
 chmod +x $tmpdir/socat
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi socat
 
 # Get ethtool
 docker build -t ethtool -f Dockerfile.ethtool .
-docker run ethtool cat ethtool > $tmpdir/ethtool
+docker run $DOCKER_RUN_OPTIONS ethtool cat ethtool > $tmpdir/ethtool
 chmod +x $tmpdir/ethtool
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi ethtool
 
 # Get conntrack
 docker build -t conntrack -f Dockerfile.conntrack .
-docker run conntrack cat conntrack > $tmpdir/conntrack
+docker run $DOCKER_RUN_OPTIONS conntrack cat conntrack > $tmpdir/conntrack
 chmod +x $tmpdir/conntrack
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi conntrack
 
 # Do the build.
-docker build -t iso .
+docker build -t b2diso .
 
 # Output the iso.
-docker run iso > $ISO
+docker run $DOCKER_RUN_OPTIONS b2diso > $ISO
 
-popd
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi b2diso
+
+cd $curdir
 mv $tmpdir/$ISO ../build
 
 # Clean up.
