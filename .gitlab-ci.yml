@@ -1,0 +1,15 @@
+build:
+  image: fedora:26
+  variables:
+    DOCKER_HOST: "tcp://gbraad__dind-options:2375"
+    REMOVE_CONTAINER_IMAGES: y
+  services:
+    - gbraad/dind-options:latest
+  script:
+    - dnf install -y docker make git gettext
+    - make
+    - mv ./build ./public
+  artifacts:
+    paths:
+      - public
+
