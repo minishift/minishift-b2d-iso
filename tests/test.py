@@ -14,15 +14,20 @@ class MinishiftISOTest(Test):
 
     def setUp(self):
         ''' Test Setup '''
-        self.log.info("################################################################")
-        self.log.info("Avocado version : %s" % VERSION)
-        self.log.info("################################################################")
-
         self.repo_dir = os.path.dirname(os.path.realpath(__file__)) + "/.."
         self.scripts_dir = self.repo_dir + "/tests/"
         self.bin_dir = self.repo_dir + "/build/bin/"
         self.driver_name = 'kvm'
         self.iso_name = 'minishift-b2d'
+
+        cmd = self.bin_dir + "minishift version"
+        output = self.execute_test({ 'cmd': cmd })
+
+        self.log.info("################################################################")
+        self.log.info("Avocado version   : %s" % VERSION)
+        self.log.info("Minishift version : %s" % output.rstrip())
+        self.log.info("################################################################")
+
 
         # Find iso files and skip test if no ISO file is found
         self.iso_file = self.repo_dir + "/build/%s.iso" % self.iso_name
@@ -66,12 +71,11 @@ class MinishiftISOTest(Test):
         output = self.execute_test({ 'cmd': cmd })
         self.assertRegexpMatches(output.rstrip(), r'.*SSHFS version 2\.5.*')
 
-    # mount.nfs -V does not return a version
-    # current test fails because `minishift ssh` https://github.com/minishift/minishift/issues/660
-    #def test_nfs_installed(self):
-    #    cmd = self.bin_dir + "minishift ssh 'sudo /sbin/mount.nfs'"
-    #    output = self.execute_test({ 'cmd': cmd })
-    #    self.assertRegexpMatches(output.rstrip(), r'-o nfsoptions')
+    # mount.nfs -V <anypath> does return a version
+    def test_nfs_installed(self):
+       cmd = self.bin_dir + "minishift ssh 'sudo /sbin/mount.nfs -V /needed/to/get/version'"
+       output = self.execute_test({ 'cmd': cmd })
+       self.assertRegexpMatches(output.rstrip(), r'mount.nfs: \(linux nfs-utils 1.3.3\)')
 
     def test_stopping_vm(self):
         ''' Test stopping machine '''
