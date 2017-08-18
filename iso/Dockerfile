@@ -14,15 +14,15 @@
 
 # TODO: Move this to somewhere on GCR and manage tags explicitly instead of
 # relying on latest.
-FROM boot2docker/boot2docker:1.12.3
+FROM boot2docker/boot2docker:1.13.1
 
 # Set the version of Docker and the expected sha.
-RUN echo "1.12.3" > $ROOTFS/etc/version
-ENV DOCKER_SHA a3bb88649bcc47775c29dab7d95709f4dda04d0e
+RUN echo "1.13.1" > $ROOTFS/etc/version
+ENV DOCKER_SHA 0ff46d8eea0c694f349e1d40cdc10200a1a19e2c
 
 # Removing the code that creates the /etc/os-release file.
 # Refer: https://github.com/boot2docker/boot2docker/blob/master/rootfs/make_iso.sh#L20-L34
-RUN sed -i '/^b2dVersion/,/^EOOS/d' /make_iso.sh
+RUN sed -i '/^b2dVersion/,/^EOOS/d' /tmp/make_iso.sh
 
 # Add the /etc/os-release file
 ADD os-release $ROOTFS/etc
@@ -62,7 +62,7 @@ RUN curl -fSL -o /tmp/dockerbin.tgz https://get.docker.com/builds/Linux/x86_64/d
 RUN $ROOTFS/usr/local/bin/docker -v
 
 # Build the actual iso image
-RUN /make_iso.sh
+RUN /tmp/make_iso.sh
 
 # Output it to transfer back to the host
 CMD ["cat", "boot2docker.iso"]
