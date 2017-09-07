@@ -14,7 +14,7 @@
 
 # TODO: Move this to somewhere on GCR and manage tags explicitly instead of
 # relying on latest.
-FROM boot2docker/boot2docker:1.12.6
+FROM boot2docker/boot2docker:1.13.1
 
 # Set the version of Docker and the expected sha.
 RUN echo "1.12.6" > $ROOTFS/etc/version
@@ -45,8 +45,22 @@ RUN for dep in $HOST_FOLDER_DEPS; do \
         rm -f "/tmp/$dep.tcz"; \
     done
 
+# Add Hyper-V Data Exchange client
+RUN curl -fSL -o "/tmp/go-hvkvp.tcz" "https://files.gbraad.nl/hvkvp/go-hvkvp-0.0.3.tcz"; \
+    unsquashfs -f -d "$ROOTFS" "/tmp/go-hvkvp.tcz"; \
+    rm -f "/tmp/hvkvp.tcz"
+
 # Override current mount script
 ADD scripts/automount $ROOTFS/etc/rc.d/automount
+
+# Override current bootscript
+ADD scripts/bootscript.sh $ROOTFS/opt/bootscript.sh
+
+# Override current network script
+ADD scripts/static.sh $ROOTFS/etc/rc.d/static.sh
+RUN chmod +x $ROOTFS/etc/rc.d/static.sh
+# Config to disable IPv6
+ADD sysctl-ipv6.conf $ROOTFS/etc/sysctl-ipv6.conf
 
 # Get a specific version of Docker. This will overwrite the binary installed
 # in the base image.
