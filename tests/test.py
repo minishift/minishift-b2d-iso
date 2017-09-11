@@ -77,6 +77,11 @@ class MinishiftISOTest(Test):
        output = self.execute_test({ 'cmd': cmd })
        self.assertRegexpMatches(output.rstrip(), r'mount.nfs: \(linux nfs-utils 1.3.3\)')
 
+    def test_path_bindmounted(self):
+        cmd = self.bin_dir + "minishift ssh 'mount | grep /dev/sda1 | grep /var/lib/ | wc -l'"
+        output = self.execute_test({ 'cmd': cmd })
+        self.assertEqual(output.rstrip(), '5')
+
     def test_stopping_vm(self):
         ''' Test stopping machine '''
         cmd = self.bin_dir + "minishift stop"
