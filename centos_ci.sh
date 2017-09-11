@@ -25,7 +25,6 @@ yum -y install \
   git \
   epel-release \
   curl \
-  python-setuptools \
   docker \
   kvm \
   qemu-kvm \
