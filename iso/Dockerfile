@@ -45,8 +45,8 @@ RUN for dep in $HOST_FOLDER_DEPS; do \
         rm -f "/tmp/$dep.tcz"; \
     done
 
-ADD bootlocal.sh $ROOTFS/tmp/bootlocal.sh
-RUN cat $ROOTFS/tmp/bootlocal.sh >> $ROOTFS/etc/rc.d/automount
+# Override current mount script
+ADD scripts/automount $ROOTFS/etc/rc.d/automount
 
 # Get a specific version of Docker. This will overwrite the binary installed
 # in the base image.
