@@ -31,22 +31,25 @@ docker run $DOCKER_RUN_OPTIONS jpetazzo/nsenter cat /nsenter > $tmpdir/nsenter &
 # do not remove nsenter, as this image is not big, and quite generally used
 
 # Get socat
-docker build -t socat -f Dockerfile.socat .
-docker run $DOCKER_RUN_OPTIONS socat cat socat > $tmpdir/socat
+[ "${BUILD_CONTAINER_IMAGES+1}" ] && docker build -t minishift/b2d-socat -f Dockerfile.socat .
+docker run $DOCKER_RUN_OPTIONS minishift/b2d-socat cat socat > $tmpdir/socat
 chmod +x $tmpdir/socat
-[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi socat
+[ "${PUSH_CONTAINER_IMAGES+1}" ] && docker push minishift/b2d-socat
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi minishift/b2d-socat
 
 # Get ethtool
-docker build -t ethtool -f Dockerfile.ethtool .
-docker run $DOCKER_RUN_OPTIONS ethtool cat ethtool > $tmpdir/ethtool
+[ "${BUILD_CONTAINER_IMAGES+1}" ] && docker build -t minishift/b2d-ethtool -f Dockerfile.ethtool .
+docker run $DOCKER_RUN_OPTIONS minishift/b2d-ethtool cat ethtool > $tmpdir/ethtool
 chmod +x $tmpdir/ethtool
-[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi ethtool
+[ "${PUSH_CONTAINER_IMAGES+1}" ] && docker push minishift/b2d-ethtool
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi minishift/b2d-ethtool
 
 # Get conntrack
-docker build -t conntrack -f Dockerfile.conntrack .
-docker run $DOCKER_RUN_OPTIONS conntrack cat conntrack > $tmpdir/conntrack
+[ "${BUILD_CONTAINER_IMAGES+1}" ] && docker build -t minishift/b2d-conntrack -f Dockerfile.conntrack .
+docker run $DOCKER_RUN_OPTIONS minishift/b2d-conntrack cat conntrack > $tmpdir/conntrack
 chmod +x $tmpdir/conntrack
-[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi conntrack
+[ "${PUSH_CONTAINER_IMAGES+1}" ] && docker push minishift/b2d-conntrack
+[ "${REMOVE_CONTAINER_IMAGES+1}" ] && docker rmi minishift/b2d-conntrack
 
 # Do the build.
 docker build -t b2diso .
