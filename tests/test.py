@@ -95,6 +95,12 @@ class MinishiftISOTest(Test):
         self.assertEqual(0, process.returncode)
         self.assertEqual('Stopped', output.rstrip())
 
+    def test_restart(self):
+        ''' Test restart '''
+        start_args = (self.driver_name, "file://"  + self.iso_file)
+        cmd = self.bin_dir + "minishift start --vm-driver %s --iso-url %s" % start_args
+        self.execute_test({ 'cmd': cmd })
+
     def test_delete_vm(self):
         ''' Test removing machine '''
         cmd = self.bin_dir + "minishift delete --force"
