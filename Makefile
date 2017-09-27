@@ -49,4 +49,4 @@ $(BIN_DIR)/minishift:
 
 .PHONY: test
 test: $(BIN_DIR)/minishift
-	avocado run $(SHOW_LOG) tests/test.py
+	sh tests/test.sh
