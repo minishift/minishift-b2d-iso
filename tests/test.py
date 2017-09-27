@@ -93,7 +93,7 @@ class MinishiftISOTest(Test):
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         output = process.communicate()[0]
         self.assertEqual(0, process.returncode)
-        self.assertEqual('Stopped', output.rstrip())
+        self.assertEqual('Minishift:  Stopped', output.rstrip().split('\n')[0])
 
     def test_delete_vm(self):
         ''' Test removing machine '''
