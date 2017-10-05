@@ -14,11 +14,11 @@
 
 # TODO: Move this to somewhere on GCR and manage tags explicitly instead of
 # relying on latest.
-FROM boot2docker/boot2docker:1.12.6
+FROM boot2docker/boot2docker:17.09.0-ce
 
 # Set the version of Docker and the expected sha.
-RUN echo "1.12.6" > $ROOTFS/etc/version
-ENV DOCKER_SHA 53e47bc1c888279753c474c7c75c4e6756422165
+RUN echo "17.09.0-ce" > $ROOTFS/etc/version
+ENV DOCKER_SHA 3872d223ed3635fd5e0a111acf1b999e00041afb
 
 # Removing the code that creates the /etc/os-release file.
 # Refer: https://github.com/boot2docker/boot2docker/blob/master/rootfs/make_iso.sh#L20-L34
@@ -53,7 +53,7 @@ ADD scripts/automount $ROOTFS/etc/rc.d/automount
 # The --strip-components=3 flag will have to change as we switch docker versions
 # past 1.10.x. They changed the packaging format slightly.
 RUN rm -f /$ROOTFS/usr/local/bin/docker*
-RUN curl -fSL -o /tmp/dockerbin.tgz https://get.docker.com/builds/Linux/x86_64/docker-$(cat $ROOTFS/etc/version).tgz && \
+RUN curl -fSL -o /tmp/dockerbin.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$(cat $ROOTFS/etc/version).tgz && \
     # Check the sha1 matches.
     if [ $DOCKER_SHA != $(sha1sum /tmp/dockerbin.tgz | cut -f1 -d ' ') ]; then echo "SHA mismatch!"; exit 1; fi && \
     tar -zxvf /tmp/dockerbin.tgz -C "$ROOTFS/usr/local/bin" --strip-components=1 && \
