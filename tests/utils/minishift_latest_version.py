@@ -3,8 +3,12 @@
 import requests
 import re
 import os
+import platform
 
-OS = os.getenv('OS', 'linux')
+distributionInfo = platform.platform()
+
+matchObj = re.match( r'linux|darwin|windows', distributionInfo, re.I)
+OS= matchObj.group().lower()
 
 def main():
     pattern = re.compile(".*%s-amd64.(tgz|zip)$" % OS)
