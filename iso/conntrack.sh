@@ -20,7 +20,7 @@ PACKAGES="libmnl-1.0.3 libnfnetlink-1.0.1 libnetfilter_cttimeout-1.0.0 libnetfil
 CONNTRACK=conntrack-tools-1.4.2
 
 fetch() {
-    curl -s -S http://www.netfilter.org/projects/${1%-*}/files/$1.tar.bz2 | tar xj
+    curl -s -S https://www.netfilter.org/projects/${1%-*}/files/$1.tar.bz2 | tar xj
 }
 
 for PACKAGE in $PACKAGES; do
