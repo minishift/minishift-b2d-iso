@@ -100,7 +100,7 @@ function verify_nfs_installation() {
 
 function verify_bind_mount() {
   output=`$BINARY ssh 'mount | grep /dev/sda1 | grep /var/lib/ | wc -l'`
-  assert_equal $output "5"
+  assert_equal $output "6"
   print_success_message "Bind mount check"
 }
 
