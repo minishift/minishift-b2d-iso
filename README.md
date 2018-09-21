@@ -1,3 +1,7 @@
+<aside class="warning">
+This repo is not maintained anymore since we shifted to use [CentOS ISO](https://github.com/minishift/minishift-centos-iso) as default one for minishift.
+</aside>
+
 # Minishift Boot2Docker ISO
 This repository contains all required instructions and code to build an ISO based on [Boot2Docker](https://github.com/boot2docker/boot2docker) to use with [minishift](https://github.com/minishift/minishift).
 
